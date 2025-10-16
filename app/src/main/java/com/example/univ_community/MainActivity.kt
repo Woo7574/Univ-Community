@@ -3,45 +3,42 @@ package com.example.univ_community
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.univ_community.data.ThemeRepository
+import com.example.univ_community.ui.screens.MainScreen
 import com.example.univ_community.ui.theme.Univ_CommunityTheme
+import com.example.univ_community.ui.viewmodel.ProfileViewModel
+import com.example.univ_community.ui.viewmodel.ProjectViewModel
+import com.example.univ_community.ui.viewmodel.ThemeViewModel
+import com.example.univ_community.ui.viewmodel.ThemeViewModelFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            Univ_CommunityTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val themeViewModel: ThemeViewModel = viewModel(
+                factory = ThemeViewModelFactory(ThemeRepository(this))
+            )
+            val projectViewModel: ProjectViewModel = viewModel()
+            val profileViewModel: ProfileViewModel = viewModel()
+            val themeMode by themeViewModel.themeMode.collectAsState()
+
+            Univ_CommunityTheme(
+                darkTheme = when (themeMode) {
+                    is com.example.univ_community.ui.viewmodel.ThemeMode.Light -> false
+                    is com.example.univ_community.ui.viewmodel.ThemeMode.Dark -> true
+                    is com.example.univ_community.ui.viewmodel.ThemeMode.System -> isSystemInDarkTheme()
                 }
+            ) {
+                MainScreen(
+                    themeViewModel = themeViewModel, 
+                    projectViewModel = projectViewModel,
+                    profileViewModel = profileViewModel
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Univ_CommunityTheme {
-        Greeting("Android")
     }
 }
