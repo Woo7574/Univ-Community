@@ -30,8 +30,7 @@
 -   **이미지 로딩:** Coil
 
 ## 📸 스크린샷 (예시)
-
-_여기에 앱의 주요 화면 스크린샷을 추가할 수 있습니다._
+<img width="291" height="664" alt="image" src="https://github.com/user-attachments/assets/0521f679-fc75-4aae-bc6d-8dcfa966b4a5" />
 
 ## 🛠️ 프로젝트 실행 방법
 
