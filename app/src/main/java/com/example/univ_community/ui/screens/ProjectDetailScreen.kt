@@ -34,18 +34,30 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.univ_community.ui.theme.Univ_CommunityTheme
 import com.example.univ_community.ui.viewmodel.ProjectViewModel
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProjectDetailScreen(projectId: Int, navController: NavController, projectViewModel: ProjectViewModel) {
     val projects by projectViewModel.projects.collectAsState()
     val project = projects.find { it.id == projectId }
+    val bookmarkedIds by projectViewModel.bookmarkedIds.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(project?.title ?: "프로젝트 개요") },
                 actions = {
+                    val isBookmarked = bookmarkedIds.contains(projectId.toString())
+                    IconButton(onClick = { projectViewModel.toggleBookmark(projectId) }) {
+                        Icon(
+                            imageVector = if (isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                            contentDescription = if (isBookmarked) "북마크 해제" else "북마크",
+                            tint = if (isBookmarked) MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    }
+
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.Close, contentDescription = "닫기", tint = Color.Red)
                     }
