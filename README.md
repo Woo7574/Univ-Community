@@ -27,8 +27,8 @@
 -   **내비게이션:** Jetpack Navigation Compose
 -   **상태 관리:** Jetpack ViewModel, Kotlin Flow
 -   **데이터 지속성:** Jetpack DataStore
--   **이미지 로딩:** Coil
-
+-   **이미지 로딩:** Coil 
+ 
 ## 📸 스크린샷 (예시)
 <img width="291" height="664" alt="image" src="https://github.com/user-attachments/assets/0521f679-fc75-4aae-bc6d-8dcfa966b4a5" />
 
